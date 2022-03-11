@@ -10,18 +10,27 @@ public class Main {
         Random rand = new Random();
         int cpuGuess = rand.nextInt(21 + 1) + 1;
         String userName;
-        int userGuess;
+        int userGuess = 0;
         int lives = 6;
         int numOfGuesses = 0;
         char playAgain;
-
+        boolean valid = false;
 	    System.out.println("Hello! What is your name?");
         userName = scnr.nextLine();
-        System.out.println(String.format("Hello %s I'm thinking of a number between 1 and 20", userName));
+        System.out.println("Hello " + userName + " I'm thinking of a number between 1 and 20");
         while (lives > 0) {
             System.out.println("Take a guess");
-            userGuess = scnr.nextInt();
-            scnr.nextLine();
+            while (!valid) {
+                try {
+                    userGuess = scnr.nextInt();
+                    scnr.nextLine();
+                    valid = true;
+                }
+                catch (Exception e) {
+                    System.out.println("WRONG INPUT! Please enter a number from 1 - 20");
+                    scnr.next();
+                }
+            }
             numOfGuesses++;
             if (userGuess != cpuGuess) {
                 lives--;
@@ -33,7 +42,7 @@ public class Main {
                 }
             }
             if (userGuess == cpuGuess) {
-                System.out.println(String.format("Good job %s! You guessed my number in %s guesses", userName, numOfGuesses));
+                System.out.println("Good job " + userName + "! You guessed my number in " + numOfGuesses + " guesses");
                 System.out.println("Would you like to play again? (y or n)");
                 numOfGuesses = 0;
                 playAgain = scnr.next().charAt(0);
@@ -57,6 +66,7 @@ public class Main {
                 }
                 System.out.println("Goodbye!");
             }
+            valid = false;
         }
     }
 }
